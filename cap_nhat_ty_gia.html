@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    <!-- Latest compiled and minified CSS & JS -->
+    <link rel="stylesheet" media="screen" href="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    
+    <title>Document</title>
+</head>
+<body>
+    
+    <nav class="navbar navbar-inverse">
+        <a class="navbar-brand" href="#">Cửa hàng ngoại tệ</a>
+        <ul class="nav navbar-nav">
+            <li>
+                <a href="index.html">Bán ra</a>
+            </li>
+            <li>
+                <a href="mh_mua.html">Mua vào</a>
+            </li>
+            <li class="active">
+                <a href="cap_nhat_ty_gia.html">Cập nhật tỷ giá</a>
+            </li>
+            <li>
+                <a href="thong_ke_giao_dich.html">Thống kê giao dịch</a>
+            </li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        
+        <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <legend>Phiếu cập nhật tỷ giá</legend>
+                </div>
+
+                <input type="hidden" id="loai_giao_dich" value="ban" />
+
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        Chọn loại tiền
+                    </div>
+                    <div class="col-sm-9">
+                        <select name="" id="loai_tien" class="form-control" required="required">
+                        </select>
+                    </div>
+                </div>
+        
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        Số tiền bán ra
+                    </div>
+                    <div class="col-sm-9">
+                        <input type="text" name="" id="so_tien_ban" class="form-control" value="" required="required" pattern="" title="">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-3">
+                        Số tiền mua vào
+                    </div>
+                    <div class="col-sm-9">
+                        <input type="text" name="" id="so_tien_mua" class="form-control" value="" required="required" pattern="" title="">
+                    </div>
+                </div>
+        
+                <div class="form-group">
+                    <div class="col-sm-9 col-sm-offset-3">
+                        <button type="button" id="ghi_du_lieu" class="btn btn-primary">Ghi nhận</button>
+                    </div>
+                </div>
+        </form>
+        
+    </div>
+    <script>
+        ds_ty_gia = [];
+
+        $(function(){
+            //lấy danh sách loại tiền cùng tỷ giá
+            $.get("http://localhost:8080/ty_gia").success(function(data){
+                //console.log(data);
+                ds_ty_gia = data;
+                ds_ty_gia.forEach((loai_tien) => {
+                    $("#loai_tien").append('<option>'+loai_tien.loai_tien+'</option>');
+                });
+
+                $("#so_tien_ban").val(ds_ty_gia[0].ban_ra);
+                $("#so_tien_mua").val(ds_ty_gia[0].mua_vao);
+            });
+        });
+
+        $("#loai_tien").change(function(){
+            loai_tien = $(this).val();
+            //console.log(loai_tien);
+            ds_ty_gia.forEach((ty_gia) => {
+                if(ty_gia.loai_tien == loai_tien){
+                    $("#so_tien_ban").val(ty_gia.ban_ra);
+                    $("#so_tien_mua").val(ty_gia.mua_vao);
+                }
+            });
+        });
+
+        $("#ghi_du_lieu").click(function(){
+            loai_tien_luu = $("#loai_tien").val();
+            so_tien_ban_luu = $("#so_tien_ban").val();
+            so_tien_mua_luu = $("#so_tien_mua").val();
+
+            data_luu = {loai_tien: loai_tien_luu, ban_ra: so_tien_ban_luu * 1, mua_vao: so_tien_mua_luu * 1};
+            $.post("http://localhost:8080/edit_ty_gia", data_luu)
+                .success(function(data){
+                    console.log(data);
+                })
+        });
+        
+    </script>
+</body>
+</html>
