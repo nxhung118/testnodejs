@@ -1,0 +1,21 @@
+{
+  "name": "bai_5",
+  "version": "1.0.0",
+  "description": "test express",
+  "main": "app.js",
+  "scripts": {
+    "test": "run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git"
+  },
+  "keywords": [
+    "123"
+  ],
+  "author": "Hung Nguyen",
+  "license": "ISC",
+  "dependencies": {
+    
+  }
+}
