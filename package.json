@@ -1,21 +1,17 @@
 {
-  "name": "bai_5",
+  "name": "demo_2",
   "version": "1.0.0",
-  "description": "test express",
+  "description": "Thực hiện Middleware",
   "main": "app.js",
   "scripts": {
-    "test": "run"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "123"
   ],
-  "author": "Hung Nguyen",
+  "author": "Hùng Nguyễn",
   "license": "ISC",
   "dependencies": {
-    
+    "express": "^4.15.2"
   }
 }
